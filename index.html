@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daisy Dashboard 🌼</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #e0e0e0; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 24px 32px; border-bottom: 2px solid #f4d03f33; }
+  .header h1 { font-size: 28px; color: #f4d03f; }
+  .header .subtitle { color: #888; font-size: 14px; margin-top: 4px; }
+  .header .status { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .header .status .dot { width: 10px; height: 10px; border-radius: 50%; background: #2ecc71; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 24px 32px; }
+  .card { background: #1a1a2e; border-radius: 12px; padding: 20px; border: 1px solid #ffffff0d; }
+  .card h2 { font-size: 16px; color: #f4d03f; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .card .metric { font-size: 36px; font-weight: 700; color: #fff; }
+  .card .label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+  .task-list { list-style: none; }
+  .task-list li { padding: 10px 0; border-bottom: 1px solid #ffffff0d; display: flex; justify-content: space-between; align-items: center; }
+  .task-list li:last-child { border: none; }
+  .task-name { font-size: 14px; }
+  .task-time { font-size: 12px; color: #888; }
+  .task-status { font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
+  .status-done { background: #2ecc7122; color: #2ecc71; }
+  .status-active { background: #f4d03f22; color: #f4d03f; }
+  .status-blocked { background: #e74c3c22; color: #e74c3c; }
+  .status-pending { background: #ffffff11; color: #888; }
+  .schedule-block { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid #ffffff0d; }
+  .schedule-block:last-child { border: none; }
+  .schedule-time { font-size: 12px; color: #888; min-width: 90px; }
+  .schedule-name { font-size: 14px; }
+  .chart-bar { height: 24px; border-radius: 4px; margin: 4px 0; display: flex; align-items: center; padding: 0 8px; font-size: 11px; color: #fff; min-width: 30px; }
+  .chart-label { font-size: 12px; color: #888; margin-bottom: 2px; }
+  .model-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #ffffff0d; font-size: 13px; }
+  .model-row:last-child { border: none; }
+  .cost-total { font-size: 24px; font-weight: 700; color: #2ecc71; }
+  .brand-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+  .brand-imwt { background: #7ae7bf33; color: #7ae7bf; }
+  .brand-flourish { background: #dbadff33; color: #dbadff; }
+  .brand-makers { background: #fbd75b33; color: #fbd75b; }
+  .refresh-info { text-align: center; padding: 16px; color: #555; font-size: 12px; }
+  .wide { grid-column: span 2; }
+  @media (max-width: 700px) { .wide { grid-column: span 1; } .grid { padding: 12px; gap: 12px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🌼 Daisy Dashboard</h1>
+  <div class="subtitle">Flourish Experiences · Makers With AI · In Meow We Trust</div>
+  <div class="status">
+    <div class="dot" id="statusDot"></div>
+    <span id="statusText">Loading...</span>
+  </div>
+</div>
+
+<div class="grid">
+  <!-- Today's Stats -->
+  <div class="card">
+    <h2>📊 Today's Stats</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div><div class="label">Tasks Completed</div><div class="metric" id="tasksDone">-</div></div>
+      <div><div class="label">Active Time</div><div class="metric" id="activeTime">-</div></div>
+      <div><div class="label">Tokens Used</div><div class="metric" id="tokensUsed">-</div></div>
+      <div><div class="label">Est. Cost</div><div class="cost-total" id="estCost">-</div></div>
+    </div>
+  </div>
+
+  <!-- Current/Next Task -->
+  <div class="card">
+    <h2>⏱️ Current Block</h2>
+    <div id="currentBlock" style="font-size:18px; margin-bottom:8px;">—</div>
+    <div class="label" id="currentBlockTime">—</div>
+    <div style="margin-top:16px;">
+      <h2>⏭️ Next Up</h2>
+      <div id="nextBlock" style="font-size:16px;">—</div>
+      <div class="label" id="nextBlockTime">—</div>
+    </div>
+  </div>
+
+  <!-- Today's Schedule -->
+  <div class="card">
+    <h2>📅 Today's Schedule</h2>
+    <div id="scheduleList">Loading...</div>
+  </div>
+
+  <!-- Task Log -->
+  <div class="card">
+    <h2>📋 Task Log (Today)</h2>
+    <ul class="task-list" id="taskLog">
+      <li><span class="task-name">Loading...</span></li>
+    </ul>
+  </div>
+
+  <!-- Token Usage by Model -->
+  <div class="card">
+    <h2>🧠 Model Usage</h2>
+    <div id="modelUsage">Loading...</div>
+  </div>
+
+  <!-- Brand Time Split -->
+  <div class="card">
+    <h2>🏷️ Brand Time Split</h2>
+    <div id="brandSplit">Loading...</div>
+  </div>
+</div>
+
+<div class="refresh-info">Auto-refreshes every 30 seconds · <span id="lastUpdate">—</span></div>
+
+<script>
+const SCHEDULE = [
+  { time: '12:00 AM', end: '12:30 AM', name: '🐱 IMWT: Generate Daily Content Batch', brand: 'imwt' },
+  { time: '1:00 AM', end: '1:15 AM', name: '💾 Backup: Drive Sync & Git Push', brand: 'system' },
+  { time: '2:00 AM', end: '2:30 AM', name: '🌸 Flourish: Brand Development', brand: 'flourish' },
+  { time: '3:00 AM', end: '3:30 AM', name: '🤖 Makers With AI: Brand Development', brand: 'makers' },
+  { time: '4:00 AM', end: '4:15 AM', name: '🔧 Dev Review: Check What Needs Building', brand: 'system' },
+  { time: '7:45 AM', end: '8:00 AM', name: '🌼 Morning Briefing → Kyle', brand: 'system' },
+  { time: '9:00 AM', end: '9:30 AM', name: '🐱 IMWT: Content Pipeline', brand: 'imwt' },
+  { time: '2:00 PM', end: '2:30 PM', name: '🎬 Creative: Video & Image Gen', brand: 'creative' },
+  { time: '5:00 PM', end: '5:15 PM', name: '🌼 End of Day Report → Kyle', brand: 'system' },
+];
+
+const BRAND_COLORS = {
+  imwt: '#7ae7bf', flourish: '#dbadff', makers: '#fbd75b', system: '#888', creative: '#ffb878'
+};
+
+function parseTime(str) {
+  const [time, ampm] = str.split(' ');
+  let [h, m] = time.split(':').map(Number);
+  if (ampm === 'PM' && h !== 12) h += 12;
+  if (ampm === 'AM' && h === 12) h = 0;
+  return h * 60 + m;
+}
+
+function getCurrentBlock() {
+  const now = new Date();
+  const mins = now.getHours() * 60 + now.getMinutes();
+  for (const s of SCHEDULE) {
+    const start = parseTime(s.time);
+    const end = parseTime(s.end);
+    if (mins >= start && mins < end) return s;
+  }
+  return null;
+}
+
+function getNextBlock() {
+  const now = new Date();
+  const mins = now.getHours() * 60 + now.getMinutes();
+  for (const s of SCHEDULE) {
+    const start = parseTime(s.time);
+    if (start > mins) return s;
+  }
+  return SCHEDULE[0]; // wrap to tomorrow
+}
+
+function renderSchedule() {
+  const now = new Date();
+  const mins = now.getHours() * 60 + now.getMinutes();
+  const el = document.getElementById('scheduleList');
+  el.innerHTML = SCHEDULE.map(s => {
+    const start = parseTime(s.time);
+    const end = parseTime(s.end);
+    const isPast = mins > end;
+    const isActive = mins >= start && mins < end;
+    const opacity = isPast ? '0.4' : '1';
+    const indicator = isActive ? '🔴 ' : '';
+    return `<div class="schedule-block" style="opacity:${opacity}">
+      <span class="schedule-time">${s.time} - ${s.end}</span>
+      <span class="schedule-name">${indicator}${s.name}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderCurrentNext() {
+  const current = getCurrentBlock();
+  const next = getNextBlock();
+  document.getElementById('currentBlock').textContent = current ? current.name : '— No active block —';
+  document.getElementById('currentBlockTime').textContent = current ? `${current.time} - ${current.end}` : 'Between blocks';
+  document.getElementById('nextBlock').textContent = next ? next.name : '—';
+  document.getElementById('nextBlockTime').textContent = next ? `${next.time} - ${next.end}` : '';
+}
+
+async function loadTimeLog() {
+  try {
+    const res = await fetch('time-log.json?' + Date.now());
+    if (!res.ok) throw new Error('no log');
+    const log = await res.json();
+    const today = new Date().toISOString().slice(0, 10);
+    const todayEntries = log.filter(e => e.start && e.start.startsWith(today));
+    
+    // Tasks done
+    const done = todayEntries.filter(e => e.status === 'completed').length;
+    document.getElementById('tasksDone').textContent = done;
+    
+    // Active time
+    let totalMins = 0;
+    todayEntries.forEach(e => {
+      if (e.start && e.end) {
+        totalMins += (new Date(e.end) - new Date(e.start)) / 60000;
+      }
+    });
+    document.getElementById('activeTime').textContent = totalMins < 60 ? `${Math.round(totalMins)}m` : `${(totalMins/60).toFixed(1)}h`;
+    
+    // Tokens
+    let totalTokens = 0;
+    todayEntries.forEach(e => { totalTokens += (e.tokens_in || 0) + (e.tokens_out || 0); });
+    document.getElementById('tokensUsed').textContent = totalTokens > 1000 ? `${(totalTokens/1000).toFixed(1)}k` : totalTokens;
+    
+    // Cost estimate (rough: $3/M input, $15/M output for Opus)
+    let cost = 0;
+    todayEntries.forEach(e => {
+      cost += (e.tokens_in || 0) * 0.000015 + (e.tokens_out || 0) * 0.000075;
+    });
+    document.getElementById('estCost').textContent = `$${cost.toFixed(2)}`;
+    
+    // Task log
+    const taskEl = document.getElementById('taskLog');
+    if (todayEntries.length === 0) {
+      taskEl.innerHTML = '<li><span class="task-name" style="color:#888">No tasks logged yet today</span></li>';
+    } else {
+      taskEl.innerHTML = todayEntries.slice(-10).reverse().map(e => {
+        const statusClass = e.status === 'completed' ? 'status-done' : e.status === 'blocked' ? 'status-blocked' : 'status-active';
+        const duration = e.start && e.end ? `${Math.round((new Date(e.end) - new Date(e.start))/60000)}m` : '...';
+        return `<li>
+          <span class="task-name">${e.task || 'Unknown'}</span>
+          <span><span class="task-time">${duration}</span> <span class="task-status ${statusClass}">${e.status || '?'}</span></span>
+        </li>`;
+      }).join('');
+    }
+    
+    // Model usage
+    const modelMap = {};
+    todayEntries.forEach(e => {
+      const m = e.model || 'unknown';
+      if (!modelMap[m]) modelMap[m] = { tokens_in: 0, tokens_out: 0, count: 0 };
+      modelMap[m].tokens_in += e.tokens_in || 0;
+      modelMap[m].tokens_out += e.tokens_out || 0;
+      modelMap[m].count++;
+    });
+    const modelEl = document.getElementById('modelUsage');
+    const models = Object.entries(modelMap);
+    if (models.length === 0) {
+      modelEl.innerHTML = '<div style="color:#888; font-size:13px">No model usage yet</div>';
+    } else {
+      modelEl.innerHTML = models.map(([name, data]) => 
+        `<div class="model-row"><span>${name}</span><span>${((data.tokens_in+data.tokens_out)/1000).toFixed(1)}k tokens · ${data.count} tasks</span></div>`
+      ).join('');
+    }
+    
+    // Brand split
+    const brandMap = {};
+    todayEntries.forEach(e => {
+      const brand = e.brand || 'other';
+      if (!brandMap[brand]) brandMap[brand] = 0;
+      if (e.start && e.end) brandMap[brand] += (new Date(e.end) - new Date(e.start)) / 60000;
+    });
+    const brandEl = document.getElementById('brandSplit');
+    const brands = Object.entries(brandMap);
+    const maxBrand = Math.max(...brands.map(b => b[1]), 1);
+    if (brands.length === 0) {
+      brandEl.innerHTML = '<div style="color:#888; font-size:13px">No brand data yet</div>';
+    } else {
+      brandEl.innerHTML = brands.map(([name, mins]) => {
+        const color = BRAND_COLORS[name] || '#888';
+        const width = Math.max((mins / maxBrand) * 100, 10);
+        return `<div class="chart-label">${name}</div><div class="chart-bar" style="width:${width}%; background:${color}33; border:1px solid ${color}">${Math.round(mins)}m</div>`;
+      }).join('');
+    }
+    
+  } catch (e) {
+    document.getElementById('tasksDone').textContent = '0';
+    document.getElementById('activeTime').textContent = '0m';
+    document.getElementById('tokensUsed').textContent = '0';
+    document.getElementById('estCost').textContent = '$0.00';
+    document.getElementById('taskLog').innerHTML = '<li><span class="task-name" style="color:#888">No tasks logged yet</span></li>';
+    document.getElementById('modelUsage').innerHTML = '<div style="color:#888; font-size:13px">No data yet</div>';
+    document.getElementById('brandSplit').innerHTML = '<div style="color:#888; font-size:13px">No data yet</div>';
+  }
+}
+
+function updateStatus() {
+  const now = new Date();
+  const current = getCurrentBlock();
+  document.getElementById('statusDot').style.background = current ? '#f4d03f' : '#2ecc71';
+  document.getElementById('statusText').textContent = current ? `Working: ${current.name}` : 'Online · Between blocks';
+  document.getElementById('lastUpdate').textContent = `Last updated: ${now.toLocaleTimeString()}`;
+}
+
+function refresh() {
+  renderSchedule();
+  renderCurrentNext();
+  loadTimeLog();
+  updateStatus();
+}
+
+refresh();
+setInterval(refresh, 30000);
+</script>
+</body>
+</html>
