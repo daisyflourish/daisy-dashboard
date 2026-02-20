@@ -29,11 +29,11 @@
     "status": "completed"
   },
   {
-    "task": "IMWT-content-pipeline",
-    "brand": "In Meow We Trust",
-    "start": "2026-02-20T09:00:00-08:00",
-    "end": "2026-02-20T09:05:00-08:00",
-    "note": "9 AM content pipeline: Reviewed 10 overnight concepts + videos. Picked top 3 (Boardroom, Therapist, Bouncer). Posted to #videos with descriptions. Updated #general.",
+    "task": "Morning Briefing",
+    "brand": "system",
+    "start": "2026-02-20T07:45:00-08:00",
+    "end": "2026-02-20T07:45:27-08:00",
+    "note": "7:45 AM morning briefing — weather, overnight summary, today's schedule. Posted to Discord #general.",
     "status": "completed"
   },
   {
@@ -92,6 +92,14 @@
     "tokens_out": 10000
   },
   {
+    "task": "IMWT-content-pipeline",
+    "brand": "In Meow We Trust",
+    "start": "2026-02-20T09:00:00-08:00",
+    "end": "2026-02-20T09:05:00-08:00",
+    "note": "9 AM content pipeline: Reviewed 10 overnight concepts + videos. Picked top 3 (Boardroom, Therapist, Bouncer). Posted to #videos with descriptions. Updated #general.",
+    "status": "completed"
+  },
+  {
     "task": "IMWT: 10 Longer Videos (Sora)",
     "brand": "In Meow We Trust",
     "start": "2026-02-20T09:40:00-08:00",
@@ -103,6 +111,22 @@
     "tokens_out": 4000
   },
   {
+    "task": "Discord History Sync",
+    "brand": "system",
+    "start": "2026-02-20T10:26:59-08:00",
+    "end": "2026-02-20T10:28:12-08:00",
+    "note": "Synced all Discord channels (4-hour cycle). Duration: 73s.",
+    "status": "completed"
+  },
+  {
+    "task": "Dashboard Auto-Push",
+    "brand": "system",
+    "start": "2026-02-20T10:26:46-08:00",
+    "end": "2026-02-20T10:26:59-08:00",
+    "note": "Pushed time-log.json to GitHub Pages (2-hour cycle). Duration: 13s.",
+    "status": "completed"
+  },
+  {
     "task": "Cloudflare Dashboard Auth (in progress)",
     "brand": "system",
     "start": "2026-02-20T07:50:00-08:00",
@@ -112,5 +136,13 @@
     "model": "claude-opus-4-6",
     "tokens_in": 10000,
     "tokens_out": 37000
+  },
+  {
+    "task": "Hourly Git Auto-Commit",
+    "brand": "system",
+    "start": "2026-02-20T12:00:00-08:00",
+    "end": "2026-02-20T12:00:09-08:00",
+    "note": "Hourly git auto-commit. Duration: 9s.",
+    "status": "completed"
   }
 ]
