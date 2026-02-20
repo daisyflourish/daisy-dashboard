@@ -1,1 +1,82 @@
-[]
+[
+  {
+    "task": "Dashboard Product Spec",
+    "status": "completed",
+    "model": "claude-opus-4-6",
+    "tokens_in": 6000,
+    "tokens_out": 4600,
+    "brand": "flourish",
+    "start": "2026-02-18T15:17:00Z",
+    "end": "2026-02-18T15:19:00Z"
+  },
+  {
+    "task": "OpenClaw Projects Research",
+    "status": "completed",
+    "model": "claude-opus-4-6",
+    "tokens_in": 6000,
+    "tokens_out": 4600,
+    "brand": "flourish",
+    "start": "2026-02-18T15:17:00Z",
+    "end": "2026-02-18T15:19:00Z"
+  },
+  {
+    "task": "CRM Research",
+    "status": "completed",
+    "model": "claude-opus-4-6",
+    "tokens_in": 6000,
+    "tokens_out": 4600,
+    "brand": "flourish",
+    "start": "2026-02-18T15:17:00Z",
+    "end": "2026-02-18T15:19:00Z"
+  },
+  {
+    "task": "Social Media Research",
+    "status": "completed",
+    "model": "claude-opus-4-6",
+    "tokens_in": 8000,
+    "tokens_out": 5400,
+    "brand": "flourish",
+    "start": "2026-02-18T15:17:00Z",
+    "end": "2026-02-18T15:19:00Z"
+  },
+  {
+    "task": "AI Models Research",
+    "status": "completed",
+    "model": "claude-opus-4-6",
+    "tokens_in": 8000,
+    "tokens_out": 5400,
+    "brand": "flourish",
+    "start": "2026-02-18T15:17:00Z",
+    "end": "2026-02-18T15:19:00Z"
+  },
+  {
+    "task": "Discord Channel Setup",
+    "status": "completed",
+    "model": "claude-opus-4-6",
+    "tokens_in": 3000,
+    "tokens_out": 2000,
+    "brand": "system",
+    "start": "2026-02-18T15:19:00Z",
+    "end": "2026-02-18T15:25:00Z"
+  },
+  {
+    "task": "Populate Research Channels",
+    "status": "completed",
+    "model": "claude-opus-4-6",
+    "tokens_in": 5000,
+    "tokens_out": 3000,
+    "brand": "system",
+    "start": "2026-02-18T15:25:00Z",
+    "end": "2026-02-18T15:30:00Z"
+  },
+  {
+    "task": "Dashboard Data Wiring",
+    "status": "completed",
+    "model": "claude-opus-4-6",
+    "tokens_in": 4000,
+    "tokens_out": 3000,
+    "brand": "flourish",
+    "start": "2026-02-20T09:00:00Z",
+    "end": "2026-02-20T09:10:00Z"
+  }
+]
