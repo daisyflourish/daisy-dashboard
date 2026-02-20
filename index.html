@@ -124,6 +124,22 @@
     <div id="brandSplit">Loading...</div>
   </div>
 
+  <!-- Self-Sufficiency Score -->
+  <div class="card">
+    <h2>🎯 Self-Sufficiency Score</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div>
+        <div class="label">Asked Kyle (unnecessary)</div>
+        <div class="metric" id="escalationCount" style="color:#e74c3c;">—</div>
+      </div>
+      <div>
+        <div class="label">Target</div>
+        <div class="metric" style="color:#2ecc71;">0</div>
+      </div>
+    </div>
+    <div id="escalationList" style="margin-top:16px; font-size:13px; color:#888;"></div>
+  </div>
+
   <!-- Schedule Control Panel -->
   <div class="card wide">
     <div class="schedule-control-header">
@@ -369,12 +385,47 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+async function loadEscalationLog() {
+  try {
+    const res = await fetch('escalation-log.json?' + Date.now());
+    if (!res.ok) throw new Error('no log');
+    const log = await res.json();
+    const today = new Date().toISOString().slice(0, 10);
+    const dayData = log.days[today];
+    
+    const countEl = document.getElementById('escalationCount');
+    const listEl = document.getElementById('escalationList');
+    
+    if (!dayData) {
+      countEl.textContent = '0';
+      countEl.style.color = '#2ecc71';
+      listEl.innerHTML = '<div style="color:#2ecc71;">✅ Clean slate today</div>';
+    } else {
+      countEl.textContent = dayData.unnecessary;
+      countEl.style.color = dayData.unnecessary === 0 ? '#2ecc71' : '#e74c3c';
+      
+      if (dayData.entries && dayData.entries.length > 0) {
+        listEl.innerHTML = dayData.entries.map(e => {
+          const icon = e.avoidable ? '❌' : '✅';
+          const color = e.avoidable ? '#e74c3c' : '#2ecc71';
+          return `<div style="padding:4px 0; border-bottom:1px solid #ffffff0d; color:${color}">${icon} ${e.ask}</div>`;
+        }).join('');
+      }
+    }
+  } catch (e) {
+    document.getElementById('escalationCount').textContent = '0';
+    document.getElementById('escalationCount').style.color = '#2ecc71';
+    document.getElementById('escalationList').innerHTML = '<div style="color:#666">No data yet</div>';
+  }
+}
+
 function refresh() {
   renderSchedule();
   renderCurrentNext();
   loadTimeLog();
   updateStatus();
   loadScheduleControl();
+  loadEscalationLog();
 }
 
 refresh();

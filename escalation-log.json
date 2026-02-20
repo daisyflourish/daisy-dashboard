@@ -1,0 +1,15 @@
+{
+  "target": 0,
+  "days": {
+    "2026-02-20": {
+      "unnecessary": 3,
+      "legitimate": 1,
+      "entries": [
+        {"ask": "Asked Kyle to hard-refresh dashboard", "avoidable": true},
+        {"ask": "Asked Kyle to sign up for Cloudflare (should have tried browser first)", "avoidable": true},
+        {"ask": "Didn't set up cron jobs when schedule was written", "avoidable": true},
+        {"ask": "CAPTCHA on Cloudflare signup", "avoidable": false}
+      ]
+    }
+  }
+}
