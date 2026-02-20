@@ -43,6 +43,23 @@
   .brand-makers { background: #fbd75b33; color: #fbd75b; }
   .refresh-info { text-align: center; padding: 16px; color: #555; font-size: 12px; }
   .wide { grid-column: span 2; }
+  .prompt-card { background: #12122a; border-radius: 10px; padding: 16px; margin-bottom: 12px; border: 1px solid #ffffff0d; transition: border-color 0.2s; }
+  .prompt-card:hover { border-color: #f4d03f44; }
+  .prompt-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+  .prompt-header .time-badge { font-size: 11px; background: #ffffff11; padding: 3px 8px; border-radius: 8px; color: #aaa; white-space: nowrap; }
+  .prompt-header .block-name { font-size: 14px; font-weight: 600; }
+  .prompt-header .expand-icon { color: #666; font-size: 18px; transition: transform 0.2s; }
+  .prompt-header .expand-icon.open { transform: rotate(90deg); }
+  .prompt-body { display: none; margin-top: 12px; }
+  .prompt-body.open { display: block; }
+  .prompt-text { background: #0a0a1a; border: 1px solid #ffffff0d; border-radius: 8px; padding: 12px; font-size: 13px; line-height: 1.5; color: #ccc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; white-space: pre-wrap; word-wrap: break-word; }
+  .prompt-meta { display: flex; gap: 12px; margin-top: 8px; font-size: 11px; color: #666; }
+  .prompt-meta .recurrence { color: #f4d03f99; }
+  .prompt-status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+  .prompt-status-dot.enabled { background: #2ecc71; }
+  .prompt-status-dot.disabled { background: #e74c3c; }
+  .schedule-control-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .schedule-control-header .hint { font-size: 12px; color: #666; font-weight: normal; }
   @media (max-width: 700px) { .wide { grid-column: span 1; } .grid { padding: 12px; gap: 12px; } }
 </style>
 </head>
@@ -105,6 +122,15 @@
   <div class="card">
     <h2>🏷️ Brand Time Split</h2>
     <div id="brandSplit">Loading...</div>
+  </div>
+
+  <!-- Schedule Control Panel -->
+  <div class="card wide">
+    <div class="schedule-control-header">
+      <h2>🎛️ Schedule Control Panel</h2>
+      <span class="hint">Click any block to see its prompt · Tell Daisy to adjust</span>
+    </div>
+    <div id="promptList">Loading...</div>
   </div>
 </div>
 
@@ -289,11 +315,66 @@ function updateStatus() {
   document.getElementById('lastUpdate').textContent = `Last updated: ${now.toLocaleTimeString()}`;
 }
 
+async function loadScheduleControl() {
+  const el = document.getElementById('promptList');
+  try {
+    const res = await fetch('schedule-data.json?' + Date.now());
+    if (!res.ok) throw new Error('no schedule data');
+    const jobs = await res.json();
+    
+    el.innerHTML = jobs.map((job, i) => {
+      const brandColor = BRAND_COLORS[job.brand] || '#888';
+      const statusColor = job.lastStatus === 'ok' ? '#2ecc71' : job.lastStatus === 'error' ? '#e74c3c' : '#666';
+      const statusLabel = job.lastStatus === 'ok' ? 'Last run OK' : job.lastStatus === 'error' ? 'Last run FAILED' : 'Not yet run';
+      const errorNote = job.lastError ? `<div style="color:#e74c3c; font-size:12px; margin-top:4px;">⚠️ ${job.lastError}</div>` : '';
+      
+      return `<div class="prompt-card" data-idx="${i}">
+        <div class="prompt-header" onclick="togglePrompt(${i})">
+          <div>
+            <span class="prompt-status-dot ${job.enabled ? 'enabled' : 'disabled'}"></span>
+            <span class="block-name">${job.name}</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="time-badge">${job.time} – ${job.end} · ${job.schedule}</span>
+            <span style="width:8px;height:8px;border-radius:50%;background:${statusColor}" title="${statusLabel}"></span>
+            <span class="expand-icon" id="arrow-${i}">›</span>
+          </div>
+        </div>
+        <div class="prompt-body" id="prompt-${i}">
+          <div class="prompt-text">${escapeHtml(job.prompt)}</div>
+          ${errorNote}
+          <div class="prompt-meta">
+            <span style="color:${brandColor}">● ${job.brand}</span>
+            <span class="recurrence">${job.schedule}</span>
+            <span style="color:#555">ID: ${job.id.slice(0,8)}…</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    el.innerHTML = '<div style="color:#888; font-size:13px">No schedule data found</div>';
+  }
+}
+
+function togglePrompt(i) {
+  const body = document.getElementById('prompt-' + i);
+  const arrow = document.getElementById('arrow-' + i);
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 function refresh() {
   renderSchedule();
   renderCurrentNext();
   loadTimeLog();
   updateStatus();
+  loadScheduleControl();
 }
 
 refresh();

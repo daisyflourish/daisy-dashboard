@@ -1,0 +1,113 @@
+[
+  {
+    "id": "0a8c15dd-aec5-448a-bcc5-9dc9829e3841",
+    "name": "🐱 IMWT: Daily Content Batch",
+    "time": "12:00 AM",
+    "end": "12:30 AM",
+    "schedule": "Daily",
+    "brand": "imwt",
+    "enabled": true,
+    "lastStatus": "error",
+    "lastError": "Timed out (30 min limit)",
+    "prompt": "You are Daisy Flourish 🌼. Midnight IMWT content batch.\n\nIMPORTANT: Work efficiently. Generate 2 concepts max (not 4). Focus on SPEED.\n\nRead MEMORY.md for brand context: In Meow We Trust = real cats doing impossible things, candid iPhone energy, NOT anthropomorphized cats.\n\n1. Pick 2 funny concepts (e.g. 'cat files taxes', 'cat parallel parks')\n2. Generate 1 image per concept using openai-image-gen skill (read the SKILL.md first)\n3. Save to inmeow-pipeline-test/daily/$(date +%Y-%m-%d)/\n4. Post results to Discord #videos\n5. Post summary to Discord #general\n6. Append to time-log.json\n\nDo NOT attempt video generation in this block. Images only. Keep it under 20 minutes."
+  },
+  {
+    "id": "44f74f22-79de-4886-a6a8-d1b161693a33",
+    "name": "💾 Backup: Drive Sync & Git Push",
+    "time": "1:00 AM",
+    "end": "1:15 AM",
+    "schedule": "Daily",
+    "brand": "system",
+    "enabled": true,
+    "lastStatus": "ok",
+    "prompt": "You are Daisy Flourish 🌼. 1 AM backup block.\n\n1. Git commit any pending changes: cd workspace && git add -A && git diff --cached --stat && git commit\n2. Git push to GitHub: git push origin main\n3. Sync key files to Google Drive Daisy-Workspace folder using gog drive upload (MEMORY.md, daily logs, time logs)\n4. Push dashboard update\n5. Log time to time-log.json\n6. Post quick update to Discord #general: 'Backup complete'\n\nSet GOG_KEYRING_PASSWORD=daisy2026 for gog commands."
+  },
+  {
+    "id": "bf77073c-6de0-49f1-b9a7-1f5fedded3ae",
+    "name": "🌸 Flourish: Brand Development",
+    "time": "2:00 AM",
+    "end": "2:30 AM",
+    "schedule": "Daily",
+    "brand": "flourish",
+    "enabled": true,
+    "lastStatus": "ok",
+    "prompt": "You are Daisy Flourish 🌼. 2 AM Flourish Experiences brand block.\n\nRead MEMORY.md and specs/master-action-plan.md for context.\n\nWork on the next actionable Flourish Experiences task from the master plan. This could be:\n- Brand guidelines work\n- Website research\n- Logo refinement\n- Any Flourish-specific action items\n\nLog time to time-log.json\nPost quick update to Discord #general when done.\n\nIf no clear Flourish task is ready, research and document what needs to happen next for the Flourish brand. Save to specs/ or research/."
+  },
+  {
+    "id": "140aa21f-48c6-43b5-bf33-d7dec8bf7ead",
+    "name": "🤖 Makers With AI: Brand Development",
+    "time": "3:00 AM",
+    "end": "3:30 AM",
+    "schedule": "Daily",
+    "brand": "makers",
+    "enabled": true,
+    "lastStatus": "ok",
+    "prompt": "You are Daisy Flourish 🌼. 3 AM Makers With AI brand block.\n\nRead MEMORY.md for context.\n\nWork on Makers With AI brand development. This could be:\n- Content strategy\n- Brand identity development\n- Community building research\n- AI tools/tutorials planning\n\nLog time to time-log.json\nPost quick update to Discord #general when done.\n\nSave deliverables to research/ or specs/ as appropriate."
+  },
+  {
+    "id": "14394cef-7599-4fa3-aba9-bc1b5da3987f",
+    "name": "🔧 Dev Review: What Needs Building",
+    "time": "4:00 AM",
+    "end": "4:15 AM",
+    "schedule": "Daily",
+    "brand": "system",
+    "enabled": true,
+    "lastStatus": "ok",
+    "prompt": "You are Daisy Flourish 🌼. 4 AM dev review block.\n\nRead MEMORY.md and specs/master-action-plan.md.\n\nReview what needs to be built or developed:\n- Check blocked items\n- Check what tools/integrations are missing\n- Identify next buildable thing\n- Update the master action plan if tasks are done or priorities shift\n\nLog time to time-log.json\nPost quick update to Discord #general when done.\n\nKeep it to 15 minutes max."
+  },
+  {
+    "id": "1668ed40-f762-43fe-80b9-fe1b904274b3",
+    "name": "🌼 Morning Briefing → Kyle",
+    "time": "7:45 AM",
+    "end": "8:00 AM",
+    "schedule": "Daily",
+    "brand": "system",
+    "enabled": true,
+    "lastStatus": "pending",
+    "prompt": "You are Daisy Flourish 🌼. Morning briefing time (7:45 AM). Read MEMORY.md for full context.\n\n1. Read today's memory file if it exists\n2. Check weather for Los Angeles\n3. Check for unread iMessages\n4. Check what overnight blocks accomplished — read the time log\n5. Compose a concise morning briefing and post to Discord #general:\n   - Weather\n   - What got done overnight\n   - Today's schedule highlights\n   - Any messages needing attention\n\nKeep it short and useful."
+  },
+  {
+    "id": "0a7037e4-d8ad-40b8-9cec-fb5756b45d4f",
+    "name": "🐱 IMWT: Content Pipeline",
+    "time": "9:00 AM",
+    "end": "9:30 AM",
+    "schedule": "Daily",
+    "brand": "imwt",
+    "enabled": true,
+    "lastStatus": "pending",
+    "prompt": "You are Daisy Flourish 🌼. 9 AM IMWT content pipeline block.\n\nReview overnight content batch from daily folder.\nPrepare the best pieces for Kyle's review:\n1. Pick top 2-3 concepts from the overnight batch\n2. If videos weren't generated overnight, generate them now\n3. Post polished options to Discord #videos with descriptions\n4. Post update to Discord #general\n5. Log time\n\nThis is the 'prep for Kyle review' step — make it easy for him to pick winners."
+  },
+  {
+    "id": "3a13f8f1-193a-4d7c-b7f0-7de33b87e0c4",
+    "name": "🎬 Creative: Video & Image Generation",
+    "time": "2:00 PM",
+    "end": "2:30 PM",
+    "schedule": "Daily",
+    "brand": "creative",
+    "enabled": true,
+    "lastStatus": "pending",
+    "prompt": "You are Daisy Flourish 🌼. 2 PM creative block.\n\nRead MEMORY.md for context. This is your open creative slot.\n\nPossible tasks (pick the most impactful):\n- Generate additional IMWT content if Kyle approved concepts\n- Create brand visuals for Flourish or Makers With AI\n- Experiment with new video generation techniques\n- Generate promotional materials\n\nUse: openai-image-gen, nano-banana-pro, Veo 3\n\nLog time, post results to appropriate Discord channel."
+  },
+  {
+    "id": "b5a52814-180e-462c-ac5b-d311cf65d2e5",
+    "name": "🌼 End of Day Report → Kyle",
+    "time": "5:00 PM",
+    "end": "5:15 PM",
+    "schedule": "Daily",
+    "brand": "system",
+    "enabled": true,
+    "lastStatus": "ok",
+    "prompt": "You are Daisy Flourish 🌼. End of day report (5 PM). Read MEMORY.md for full context.\n\n1. Read today's log\n2. Read time log for today's blocks\n3. Check git log for today's commits\n4. Compose EOD report and post to Discord #general:\n   - What got done per block (with time spent)\n   - Tokens used today\n   - What's blocked\n   - Tomorrow's priorities\n5. IMPORTANT: Ask Kyle if the daily schedule should become RECURRING. If he doesn't reply by midnight, auto-populate tomorrow's Google Calendar with the same blocks.\n\nKeep it honest and brief."
+  },
+  {
+    "id": "ccb96a40-8c64-44d1-98e3-bef014ed9ceb",
+    "name": "📋 Weekly Planning & Priorities",
+    "time": "9:00 AM (Mon)",
+    "end": "9:30 AM",
+    "schedule": "Mondays",
+    "brand": "system",
+    "enabled": true,
+    "lastStatus": "pending",
+    "prompt": "You are Daisy Flourish 🌼. It's Monday — time for weekly planning.\n\n1. Read the master action plan\n2. Read this week's and last week's daily logs\n3. Read the schedule\n4. Compose a weekly plan:\n   - What was accomplished last week\n   - This week's top priorities (from the master action plan)\n   - Anything blocked that needs Kyle or Sean\n5. Post to Discord #tasks\n\nBe specific and actionable."
+  }
+]
